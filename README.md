@@ -1,2 +1,2 @@
-# aoc-2023
-AOC 2023
+# Advent of Code 2023 Solutions in Rust
+Advent of Code 2023 solutions
