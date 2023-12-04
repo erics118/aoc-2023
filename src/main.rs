@@ -1,7 +1,10 @@
+#![feature(array_chunks)]
+
 pub mod cli;
 pub mod util;
 
 pub mod day1;
+pub mod day2;
 
 use anyhow::Result;
 use clap::Parser;
@@ -21,6 +24,11 @@ pub fn run_puzzle(day: u8, test: bool) -> Result<()> {
             println!("Day 1:");
             println!("- Part 1: {}", day1::part1(&contents));
             println!("- Part 2: {}", day1::part2(&contents));
+        },
+        2 => {
+            println!("Day 2:");
+            println!("- Part 1: {}", day2::part1(&contents));
+            println!("- Part 2: {}", day2::part2(&contents));
         },
         _ => {
             println!("Day {} not implemented", day);

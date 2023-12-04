@@ -14,7 +14,6 @@ pub fn process_line(s: &str) -> u32 {
 
 pub fn part1(contents: &str) -> u32 {
     let values = contents.lines().map(process_line);
-    println!("{:?}", values.clone().collect::<Vec<_>>());
     values.sum::<u32>()
 }
 
@@ -48,7 +47,6 @@ fn to_numbers(s: &str) -> String {
         }
         i += 1;
     }
-    println!("{:?}", result);
     result
 }
 
