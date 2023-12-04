@@ -1,4 +1,5 @@
 #![feature(array_chunks)]
+#![feature(iter_array_chunks)]
 
 pub mod cli;
 pub mod util;

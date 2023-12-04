@@ -4,16 +4,16 @@ use std::fs;
 use std::path::PathBuf;
 
 pub enum File {
-    Input,
-    Example,
+    Problem,
+    Test,
 }
 
 pub fn read_file(day: u8, file: File) -> Result<String> {
     let manifest_dir = env::var("CARGO_MANIFEST_DIR").context("CARGO_MANIFEST_DIR not set")?;
 
     let extension = match file {
-        File::Input => "in.txt",
-        File::Example => "test.txt",
+        File::Problem => "in.txt",
+        File::Test => "test.txt",
     };
 
     let mut path = PathBuf::from(manifest_dir)
@@ -31,9 +31,9 @@ pub fn read_file(day: u8, file: File) -> Result<String> {
 }
 
 pub fn read_in_file(day: u8) -> Result<String> {
-    read_file(day, File::Input)
+    read_file(day, File::Problem)
 }
 
 pub fn read_test_file(day: u8) -> Result<String> {
-    read_file(day, File::Example)
+    read_file(day, File::Test)
 }
