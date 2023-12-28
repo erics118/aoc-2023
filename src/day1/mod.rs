@@ -2,10 +2,8 @@
 pub fn process_line(s: &str) -> u32 {
     let digits = s
         .chars()
-        // filter out non-digits
-        .filter(|c| c.is_digit(10))
-        // convert to digits
-        .map(|c| c.to_digit(10).unwrap())
+        // flat_map to filter out non-digits and convert to digits
+        .filter_map(|c| c.to_digit(10))
         .collect::<Vec<_>>();
 
     // return the number made from the first and last digits of the string
@@ -25,16 +23,8 @@ pub fn part1(contents: &str) -> u32 {
 // convert the words in the string to numbers
 fn to_numbers(s: &str) -> String {
     // mapping of words to the digit
-    let words_to_numbers = [
-        ("one", '1'),
-        ("two", '2'),
-        ("three", '3'),
-        ("four", '4'),
-        ("five", '5'),
-        ("six", '6'),
-        ("seven", '7'),
-        ("eight", '8'),
-        ("nine", '9'),
+    let digits = vec![
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     ];
 
     let mut result = String::new();
@@ -45,9 +35,9 @@ fn to_numbers(s: &str) -> String {
     'outer: while i < s.len() {
         // for each number, check if `s` starts with it. if so, add it to the
         // result, and go to the next value of `i`
-        for &(word, number) in &words_to_numbers {
+        for (number, word) in digits.iter().enumerate() {
             if s[i..].starts_with(word) {
-                result.push(number);
+                result.push_str(&number.to_string());
                 i += word.len() - 1;
                 continue 'outer;
             }

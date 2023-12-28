@@ -74,5 +74,6 @@ pub fn part2(contents: &str) -> u32 {
         })
         // calculate the power of each game
         .map(|(r, g, b)| r * g * b)
+        // sum it up
         .sum::<u32>()
 }
