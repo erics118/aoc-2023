@@ -5,6 +5,7 @@ pub fn part1(contents: &str) -> u64 {
         .sum()
 }
 
+// parse the content string into a list of points for each card
 pub fn parse_cards(contents: &str) -> Vec<usize> {
     contents
         .lines()
@@ -33,6 +34,7 @@ pub fn parse_cards(contents: &str) -> Vec<usize> {
         .collect()
 }
 
+// returns the number of elements in a that are also in b
 pub fn intersection_size(a: &[u64], b: &[u64]) -> usize {
     a.iter().filter(|n| b.contains(n)).count()
 }
@@ -49,10 +51,16 @@ pub fn calculate_points(n: usize) -> u64 {
 pub fn part2(contents: &str) -> u32 {
     let cards = parse_cards(contents);
 
-    let points = cards.iter().enumerate().fold(vec![1; cards.len()], |mut points, (i, n)| {
-        (i + 1..=i + *n).for_each(|j| points[j] += points[i]);
-        points
-    });
+    let card_count = cards
+        .iter()
+        // keep the indices available
+        .enumerate()
+        // fold over a list of all the card counts
+        .fold(vec![1; cards.len()], |mut card_count, (i, n)| {
+            // and add the card counts
+            (i + 1..=i + *n).for_each(|j| card_count[j] += card_count[i]);
+            card_count
+        });
 
-    points.iter().sum()
+    card_count.iter().sum()
 }
