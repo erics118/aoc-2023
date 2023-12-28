@@ -1,4 +1,11 @@
-pub fn part1(contents: &str) -> usize {
+pub fn part1(contents: &str) -> u64 {
+    parse_cards(contents)
+        .iter()
+        .map(|n| calculate_points(*n))
+        .sum()
+}
+
+pub fn parse_cards(contents: &str) -> Vec<usize> {
     contents
         .lines()
         // split into list of two lists, first being the card
@@ -20,26 +27,32 @@ pub fn part1(contents: &str) -> usize {
                         .collect::<Vec<_>>()
                 })
                 .collect::<Vec<_>>();
-            calculate_points(&a[0], &a[1])
+
+            intersection_size(&a[0], &a[1])
         })
-        .sum()
+        .collect()
 }
 
-pub fn calculate_points(my_numbers: &[u64], winning_numbers: &[u64]) -> usize {
-    let a = my_numbers
-        .iter()
-        // find intersection between my numbers and winning numbers
-        .filter(|n| winning_numbers.contains(n))
-        .count();
+pub fn intersection_size(a: &[u64], b: &[u64]) -> usize {
+    a.iter().filter(|n| b.contains(n)).count()
+}
 
-    match a {
+pub fn calculate_points(n: usize) -> u64 {
+    match n {
         // no match is 0 points
         0 => 0,
         // 1 match is 2 points, 2 match is 4 points, 3 match is 8 points, etc
-        _ => 2_usize.pow((a - 1).try_into().unwrap()),
+        _ => 2_u64.pow((n - 1).try_into().unwrap()),
     }
 }
 
-pub fn part2(_contents: &str) -> u32 {
-    1
+pub fn part2(contents: &str) -> u32 {
+    let cards = parse_cards(contents);
+
+    let points = cards.iter().enumerate().fold(vec![1; cards.len()], |mut points, (i, n)| {
+        (i + 1..=i + *n).for_each(|j| points[j] += points[i]);
+        points
+    });
+
+    points.iter().sum()
 }
